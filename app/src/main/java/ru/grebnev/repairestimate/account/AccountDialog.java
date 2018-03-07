@@ -21,8 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.concurrent.Executor;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -174,16 +172,16 @@ public class AccountDialog extends DialogFragment{
                         // Re-enable button
                         verifyEmailButton.setEnabled(true);
 
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(EmailPasswordActivity.this,
-//                                    "Verification email sent to " + user.getEmail(),
-//                                    Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Log.e(TAG, "sendEmailVerification", task.getException());
-//                            Toast.makeText(EmailPasswordActivity.this,
-//                                    "Failed to send verification email.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getActivity(),
+                                    "Verification email sent to " + user.getEmail(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "sendEmailVerification", task.getException());
+                            Toast.makeText(getActivity(),
+                                    "Failed to send verification email.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         // [END_EXCLUDE]
                     }
                 });
@@ -251,7 +249,7 @@ public class AccountDialog extends DialogFragment{
     }
 
     @OnClick(R.id.verify_email_button)
-    void onClickCerifyEmail() {
+    void onClickVerifyEmail() {
         sendEmailVerification();
     }
 }

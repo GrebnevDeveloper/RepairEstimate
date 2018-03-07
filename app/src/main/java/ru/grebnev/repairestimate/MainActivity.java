@@ -1,12 +1,15 @@
 package ru.grebnev.repairestimate;
 
 import android.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import ru.grebnev.repairestimate.account.AccountDialog;
+import ru.grebnev.repairestimate.project.ListProjectsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +17,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Fragment fragment = new ListProjectsFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (savedInstanceState == null) {
+            fragmentTransaction.add(R.id.container_fragment, fragment);
+        }
+        fragmentTransaction.commit();
     }
 
     @Override
