@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "536004192138",
+    "firebase_url": "https://repairestimate-4c5b5.firebaseio.com",
+    "project_id": "repairestimate-4c5b5",
+    "storage_bucket": "repairestimate-4c5b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536004192138:android:4ef8af7fe24b54e8",
+        "android_client_info": {
+          "package_name": "ru.grebnev.repairestimate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536004192138-efd10cfpqj9fa9adorspcaaf3ggrnsjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcskETXbU2Aoki5DREu4bUzynVUNCDTRY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
