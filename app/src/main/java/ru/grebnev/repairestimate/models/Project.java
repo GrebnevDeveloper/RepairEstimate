@@ -1,17 +1,30 @@
 package ru.grebnev.repairestimate.models;
 
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
 
-@Value
-@Builder
 public class Project {
 
-    long dateProject;
+    private long dateProject;
+    private int sumProject;
+    private String nameProject;
 
-    int sumProject;
+    public Project() {
+    }
 
-    @NonNull
-    String nameProject;
+    public Project(long dateProject, int sumProject, String nameProject) {
+        this.dateProject = dateProject;
+        this.sumProject = sumProject;
+        this.nameProject = nameProject;
+    }
+
+    public long getDateProject() {
+        return dateProject;
+    }
+
+    public int getSumProject() {
+        return sumProject;
+    }
+
+    public String getNameProject() {
+        return nameProject;
+    }
 }

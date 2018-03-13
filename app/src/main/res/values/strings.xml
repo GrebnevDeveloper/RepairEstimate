@@ -19,4 +19,7 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_add">Add</string>
     <string name="name_project_dialog">Name project</string>
+    <string name="edith_project">Edith project</string>
+    <string name="dialog_edith">Edith</string>
+    <string name="dialog_delete">Delete</string>
 </resources>

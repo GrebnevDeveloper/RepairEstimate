@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import ru.grebnev.repairestimate.account.AccountDialog;
+import ru.grebnev.repairestimate.data.firebase.database.LocaleDatabaseUtils;
 import ru.grebnev.repairestimate.project.ListProjectsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LocaleDatabaseUtils.setLocaleDatabase(true);
 
         Fragment fragment = new ListProjectsFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

@@ -11,15 +11,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.Calendar;
-
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseWriteDatabase;
 import ru.grebnev.repairestimate.models.Project;
 
-public class AddNewProjectDialog extends DialogFragment {
+public class EditingProjectDialog extends DialogFragment {
 
     FirebaseWriteDatabase writeDatabase;
+
+    public static EditingProjectDialog newInstance(Project project) {
+        EditingProjectDialog editingProjectDialog = new EditingProjectDialog();
+
+        Bundle args = new Bundle();
+
+        args.putLong("date", project.getDateProject());
+        args.putString("name", project.getNameProject());
+        args.putInt("sum", project.getSumProject());
+
+        editingProjectDialog.setArguments(args);
+        return editingProjectDialog;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,9 +40,12 @@ public class AddNewProjectDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        final Bundle args = getArguments();
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(R.string.add_new_project);
+        builder.setTitle(R.string.edith_project);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -39,16 +53,17 @@ public class AddNewProjectDialog extends DialogFragment {
 
         final TextInputLayout tilName = (TextInputLayout) container.findViewById(R.id.til_dialog_project_name);
         final EditText etName = tilName.getEditText();
+        etName.setText(args.getString("name"));
         tilName.setHint(getResources().getString(R.string.name_project_dialog));
 
         builder.setView(container);
 
 
-        builder.setPositiveButton(getString(R.string.dialog_add), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.dialog_edith), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Project project = new Project(Calendar.getInstance().getTimeInMillis(), 0, etName.getText().toString());
-                writeDatabase.writeDataToDatabase(new String[]{"projects", Long.toString(project.getDateProject())}, project);
+                Project project = new Project(Long.valueOf(args.get("date").toString()), 0, etName.getText().toString());
+                writeDatabase.writeDataToDatabase(new String[]{"projects", String.valueOf(args.get("date"))}, project);
                 dialog.dismiss();
             }
         });
@@ -56,6 +71,14 @@ public class AddNewProjectDialog extends DialogFragment {
         builder.setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setNeutralButton(getString(R.string.dialog_delete), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                writeDatabase.deleteDataToDatabase(new String[]{"projects", String.valueOf(args.get("date"))});
                 dialog.cancel();
             }
         });
