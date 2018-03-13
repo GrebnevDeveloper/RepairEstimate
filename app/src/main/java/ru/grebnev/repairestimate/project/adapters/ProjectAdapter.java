@@ -3,7 +3,9 @@ package ru.grebnev.repairestimate.project.adapters;
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.grebnev.repairestimate.R;
+import ru.grebnev.repairestimate.employment.ListEmloymentsFragment;
 import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.dialogs.EditingProjectDialog;
 
@@ -54,6 +57,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick");
+                Fragment fragment = new ListEmloymentsFragment();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -84,7 +92,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
         public ProjectViewHolder(View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
         }
     }

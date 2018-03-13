@@ -15,12 +15,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import ru.grebnev.repairestimate.data.firebase.auth.FirebaseAuthentication;
 import ru.grebnev.repairestimate.models.Project;
-import ru.grebnev.repairestimate.models.utils.ProjectComparator;
 import ru.grebnev.repairestimate.project.adapters.ProjectAdapter;
 
 public class FirebaseReadDatabase {
@@ -37,14 +35,14 @@ public class FirebaseReadDatabase {
 
     private List<Project> projects = new ArrayList<>();
 
-    ProjectAdapter adapter;
+    private ProjectAdapter adapter;
 
     public FirebaseReadDatabase(Activity activity) {
         this.firebaseAuth = new FirebaseAuthentication(activity);
         this.uidAuth = firebaseAuth.getUidAuth();
         if (!TextUtils.isEmpty(uidAuth)) {
             this.reference = FirebaseDatabase.getInstance().getReference(uidAuth);
-            this.postsQuery = reference.child("projects").orderByChild("nameProject");
+            this.postsQuery = reference.child("projects").orderByKey();
         }
     }
 
@@ -54,7 +52,6 @@ public class FirebaseReadDatabase {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange");
-
                     adapter = new ProjectAdapter(projects, fragmentManager);
                     recyclerView.setAdapter(adapter);
                 }
@@ -74,7 +71,13 @@ public class FirebaseReadDatabase {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.d(TAG, "onChildAdded");
+                    for (Project tmp : projects) {
+                        if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {
+                            return;
+                        }
+                    }
                     projects.add(dataSnapshot.getValue(Project.class));
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -85,7 +88,6 @@ public class FirebaseReadDatabase {
                         if (project.getDateProject() == tmp.getDateProject()) {
                             projects.remove(tmp);
                             projects.add(project);
-                            Collections.sort(projects, new ProjectComparator());
                             Log.d(TAG, "Project size " + projects.size());
                             adapter.notifyDataSetChanged();
                             return;
@@ -100,7 +102,6 @@ public class FirebaseReadDatabase {
                     for (Project tmp : projects) {
                         if (project.getDateProject() == tmp.getDateProject()) {
                             projects.remove(tmp);
-                            Collections.sort(projects, new ProjectComparator());
                             Log.d(TAG, "Project size " + projects.size());
                             adapter.notifyDataSetChanged();
                             return;
