@@ -23,4 +23,8 @@
     <string name="dialog_edith">Edith</string>
     <string name="dialog_delete">Delete</string>
     <string name="employment">Employment</string>
+
+    <string name="cost">Cost:</string>
+    <string name="duration">Duration:</string>
+    <string name="responsible">Responsible:</string>
 </resources>
