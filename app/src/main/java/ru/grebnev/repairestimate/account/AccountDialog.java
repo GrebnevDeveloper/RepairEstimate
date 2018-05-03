@@ -52,11 +52,6 @@ public class AccountDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         firebaseAuth = new FirebaseAuthentication(getActivity());
-
-        if (firebaseAuth.getFirebaseUser() == null) {
-            firebaseAuth.signInAnonumously();
-            updateUI(firebaseAuth.getUser());
-        }
     }
 
     @Override
@@ -72,6 +67,11 @@ public class AccountDialog extends DialogFragment {
         builder.setView(container);
 
         ButterKnife.bind(this, container);
+
+        if (firebaseAuth.getFirebaseUser() == null) {
+            firebaseAuth.signInAnonumously();
+            updateUI(firebaseAuth.getUser());
+        }
 
         return builder.create();
     }

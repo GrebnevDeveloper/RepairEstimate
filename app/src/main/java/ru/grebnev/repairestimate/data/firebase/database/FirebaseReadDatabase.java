@@ -48,17 +48,17 @@ public class FirebaseReadDatabase {
 
     public void createValueEvent(final RecyclerView recyclerView, final FragmentManager fragmentManager) {
         if (postsQuery != null) {
+            adapter = new ProjectAdapter(projects, fragmentManager);
+            recyclerView.setAdapter(adapter);
             postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange");
-                    adapter = new ProjectAdapter(projects, fragmentManager);
-                    recyclerView.setAdapter(adapter);
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Log.d(TAG, "onCancelled");
                 }
             });
         }
