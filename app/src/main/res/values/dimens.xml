@@ -19,4 +19,7 @@
     <dimen name="item_type_selected_stroke_width">2dp</dimen>
     <dimen name="item_type_height">88dp</dimen>
     <dimen name="item_type_width">242dp</dimen>
+
+    <dimen name="list_item_height">66dp</dimen>
+    <dimen name="delimiter_line_width">0.5dp</dimen>
 </resources>

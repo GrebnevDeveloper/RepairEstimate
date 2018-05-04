@@ -59,4 +59,12 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="PrimaryText">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PrimaryText.Black">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
 </resources>

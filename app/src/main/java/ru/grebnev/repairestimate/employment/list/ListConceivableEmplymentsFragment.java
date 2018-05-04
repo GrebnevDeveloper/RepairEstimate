@@ -1,10 +1,9 @@
-package ru.grebnev.repairestimate.employment.type;
+package ru.grebnev.repairestimate.employment.list;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,17 +15,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
-import ru.grebnev.repairestimate.employment.list.ListConceivableEmplymentsFragment;
-import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
+import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
+import ru.grebnev.repairestimate.employment.list.utils.SimpleDeviderItemDecoration;
 
-public class EmploymentTypeFragment extends Fragment {
-
-    private static final String TAG = EmploymentTypeFragment.class.getSimpleName();
+public class ListConceivableEmplymentsFragment extends Fragment {
+    private static final String TAG = ListConceivableEmplymentsFragment.class.getSimpleName();
 
     FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
-    private EmploymentTypeAdapter employmentTypeAdapter;
+    private ListConceivableEmploymentAdapter listConceivableEmploymentAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,18 +36,18 @@ public class EmploymentTypeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_employment_type, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_list_conceivable_employments, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_list);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        employmentTypeAdapter = new EmploymentTypeAdapter();
+        listConceivableEmploymentAdapter = new ListConceivableEmploymentAdapter();
 
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(employmentTypeAdapter);
+        recyclerView.setAdapter(listConceivableEmploymentAdapter);
+
+        recyclerView.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
 
         ButterKnife.bind(this, rootView);
 
@@ -62,10 +60,5 @@ public class EmploymentTypeFragment extends Fragment {
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");
-        Fragment fragment = new ListConceivableEmplymentsFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
     }
 }
