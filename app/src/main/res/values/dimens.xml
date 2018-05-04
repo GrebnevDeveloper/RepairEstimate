@@ -3,9 +3,20 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="base_margin">16dp</dimen>
+    <dimen name="large_margin">24dp</dimen>v
+
     <dimen name="icon_top_margin">24dp</dimen>
     <dimen name="icon_bottom_margin">24dp</dimen>
     <dimen name="title_bottom_margin">16dp</dimen>
     <dimen name="field_width_standard">160dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+
+    <dimen name="rounded_button_height">52dp</dimen>
+    <dimen name="search_flight_button_corners_radius">28dp</dimen>
+    <dimen name="item_type_stroke_width">0.5dp</dimen>
+    <dimen name="item_type_corners_radius">8dp</dimen>
+    <dimen name="item_type_selected_stroke_width">2dp</dimen>
+    <dimen name="item_type_height">88dp</dimen>
+    <dimen name="item_type_width">242dp</dimen>
 </resources>

@@ -36,4 +36,27 @@
         <item name="android:textSize">36sp</item>
     </style>
 
+    <style name="ButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/rounded_button_height</item>
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:textAppearance">@style/ButtonText</item>
+    </style>
+
+    <style name="ButtonText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@drawable/button_text</item>
+    </style>
+
+    <style name="ItemPackageText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="ItemPackageSelectedText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
 </resources>

@@ -2,7 +2,6 @@ package ru.grebnev.repairestimate.employment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,18 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.grebnev.repairestimate.R;
-import ru.grebnev.repairestimate.account.AccountDialog;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
 import ru.grebnev.repairestimate.employment.adapters.EmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.EmploymentTypeFragment;
 import ru.grebnev.repairestimate.project.ListProjectsFragment;
 
 public class ListEmloymentsFragment extends Fragment {
+
     private static final String TAG = ListProjectsFragment.class.getSimpleName();
 
     FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
+    private EmploymentAdapter employmentAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class ListEmloymentsFragment extends Fragment {
 //        readDatabase.createValueEvent(recyclerView, getFragmentManager());
 //        readDatabase.createChildEvent();
 
-        EmploymentAdapter adapter = new EmploymentAdapter();
-        recyclerView.setAdapter(adapter);
+        employmentAdapter = new EmploymentAdapter();
+        recyclerView.setAdapter(employmentAdapter);
 
         return rootView;
     }

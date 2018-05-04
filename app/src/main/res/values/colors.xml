@@ -7,4 +7,11 @@
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#E0E0E0</color>
     <color name="colorStageItem">#E0E0E0</color>
+
+    <color name="disabled_button_text">#fefefe</color>
+    <color name="button_bg_pressed">#826b41</color>
+    <color name="button_bg_disabled">@color/disabled</color>
+    <color name="disabled">#abb6d1</color>
+    <color name="accent">#9b804d</color>
+    <color name="secondary_text">#919dbf</color>
 </resources>
