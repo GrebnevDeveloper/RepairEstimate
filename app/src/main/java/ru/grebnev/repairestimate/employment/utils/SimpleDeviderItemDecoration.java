@@ -1,4 +1,4 @@
-package ru.grebnev.repairestimate.employment.list.utils;
+package ru.grebnev.repairestimate.employment.utils;
 
 import android.content.Context;
 import android.graphics.Canvas;
