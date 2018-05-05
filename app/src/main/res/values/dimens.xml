@@ -4,7 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="base_margin">16dp</dimen>
-    <dimen name="large_margin">24dp</dimen>v
+    <dimen name="base_margin_double">32dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
 
     <dimen name="icon_top_margin">24dp</dimen>
     <dimen name="icon_bottom_margin">24dp</dimen>

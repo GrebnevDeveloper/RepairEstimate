@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/large_margin"
+            android:layout_marginStart="@dimen/large_margin"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/base_margin_double">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/login_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/edit_text_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/username" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/edit_text_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="@string/password" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_next"
+        style="@style/ButtonStyle"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:layout_marginStart="@dimen/large_margin"
+        android:layout_marginTop="@dimen/base_margin"
+        android:text="@string/next" />
+</LinearLayout>

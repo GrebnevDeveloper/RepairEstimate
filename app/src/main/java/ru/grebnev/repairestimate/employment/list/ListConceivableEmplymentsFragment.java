@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
 import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.list.utils.SimpleDeviderItemDecoration;
+import ru.grebnev.repairestimate.employment.volume.EmploymentVolumeFragment;
 
 public class ListConceivableEmplymentsFragment extends Fragment {
     private static final String TAG = ListConceivableEmplymentsFragment.class.getSimpleName();
@@ -60,5 +62,10 @@ public class ListConceivableEmplymentsFragment extends Fragment {
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");
+        Fragment fragment = new EmploymentVolumeFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
