@@ -17,7 +17,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.data.firebase.auth.FirebaseAuthentication;
+import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
+import ru.grebnev.repairestimate.models.EmploymentType;
 import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.adapters.ProjectAdapter;
 
@@ -35,7 +38,9 @@ public class FirebaseReadDatabase {
 
     private List<Project> projects = new ArrayList<>();
 
-    private ProjectAdapter adapter;
+    private List<EmploymentType> employmentTypes = new ArrayList<>();
+
+    private BaseAdapter adapter;
 
     public FirebaseReadDatabase(Activity activity) {
         this.firebaseAuth = new FirebaseAuthentication(activity);
@@ -46,14 +51,26 @@ public class FirebaseReadDatabase {
         }
     }
 
+    public FirebaseReadDatabase(String child) {
+        if (!TextUtils.isEmpty(child)) {
+            this.reference = FirebaseDatabase.getInstance().getReference("employment");
+            this.postsQuery = reference.child(child).orderByKey();
+        }
+    }
+
     public void createValueEvent(final RecyclerView recyclerView, final FragmentManager fragmentManager) {
         if (postsQuery != null) {
-            adapter = new ProjectAdapter(projects, fragmentManager);
-            recyclerView.setAdapter(adapter);
             postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(TAG, "onDataChange");
+                    if (dataSnapshot.getKey().equals("type")) {
+                        adapter = new EmploymentTypeAdapter(employmentTypes, fragmentManager);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter = new ProjectAdapter(projects, fragmentManager);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
 
                 @Override
@@ -70,13 +87,22 @@ public class FirebaseReadDatabase {
             postsQuery.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.d(TAG, "onChildAdded");
-                    for (Project tmp : projects) {
-                        if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {
-                            return;
+                    Log.d(TAG, "onChildAdded " + dataSnapshot.getKey());
+                    if (dataSnapshot.getKey().contains("type")) {
+                        for (EmploymentType type : employmentTypes) {
+                            if (type.getName().equals(dataSnapshot.getValue(EmploymentType.class).getName())) {
+                                return;
+                            }
                         }
+                        employmentTypes.add(dataSnapshot.getValue(EmploymentType.class));
+                    } else {
+                        for (Project tmp : projects) {
+                            if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {
+                                return;
+                            }
+                        }
+                        projects.add(dataSnapshot.getValue(Project.class));
                     }
-                    projects.add(dataSnapshot.getValue(Project.class));
                     adapter.notifyDataSetChanged();
                 }
 

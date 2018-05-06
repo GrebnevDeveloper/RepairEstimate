@@ -3,6 +3,7 @@ package ru.grebnev.repairestimate.employment.type.adapter;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +15,26 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.models.EmploymentType;
 
-public class EmploymentTypeAdapter extends RecyclerView.Adapter<EmploymentTypeAdapter.EmploymentTypeViewHolder> {
+public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.EmploymentTypeViewHolder> {
 
-    private String[] typeSyrface = {"Пол", "Стены", "Потолок"};
     private List<EmploymentType> employmentTypes = new ArrayList<>();
+
+    private FragmentManager fragmentManager;
+
+
+    public EmploymentTypeAdapter(List<EmploymentType> employmentTypes, FragmentManager fragmentManager) {
+        this.employmentTypes = employmentTypes;
+        this.fragmentManager = fragmentManager;
+    }
 
     @NonNull
     @Override
     public EmploymentTypeAdapter.EmploymentTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        for (int i = 0; i < typeSyrface.length; i++) {
-            employmentTypes.add(new EmploymentType(typeSyrface[i]));
-        }
         return new EmploymentTypeViewHolder(inflater.inflate(R.layout.item_type, parent, false));
     }
 
@@ -51,7 +57,7 @@ public class EmploymentTypeAdapter extends RecyclerView.Adapter<EmploymentTypeAd
 
     @Override
     public int getItemCount() {
-        return typeSyrface.length;
+        return employmentTypes.size();
     }
 
     public class EmploymentTypeViewHolder extends RecyclerView.ViewHolder {

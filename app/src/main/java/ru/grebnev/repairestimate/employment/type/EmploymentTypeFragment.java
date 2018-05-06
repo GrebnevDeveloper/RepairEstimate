@@ -17,7 +17,6 @@ import butterknife.OnClick;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
 import ru.grebnev.repairestimate.employment.list.ListConceivableEmplymentsFragment;
-import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
 
 public class EmploymentTypeFragment extends Fragment {
 
@@ -26,13 +25,12 @@ public class EmploymentTypeFragment extends Fragment {
     FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
-    private EmploymentTypeAdapter employmentTypeAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        readDatabase = new FirebaseReadDatabase(getActivity());
+        readDatabase = new FirebaseReadDatabase("type");
     }
 
     @Nullable
@@ -46,15 +44,12 @@ public class EmploymentTypeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
 
-        employmentTypeAdapter = new EmploymentTypeAdapter();
-
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(employmentTypeAdapter);
+
+        readDatabase.createValueEvent(recyclerView, getFragmentManager());
+        readDatabase.createChildEvent();
 
         ButterKnife.bind(this, rootView);
-
-//        readDatabase.createValueEvent(recyclerView, getFragmentManager());
-//        readDatabase.createChildEvent();
 
         return rootView;
     }

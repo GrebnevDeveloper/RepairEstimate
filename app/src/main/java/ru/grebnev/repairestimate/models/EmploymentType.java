@@ -3,12 +3,9 @@ package ru.grebnev.repairestimate.models;
 public class EmploymentType {
 
     private boolean selected;
-
     private String name;
 
-    public EmploymentType(String name) {
-        this.selected = false;
-        this.name = name;
+    public EmploymentType() {
     }
 
     public boolean isSelected() {

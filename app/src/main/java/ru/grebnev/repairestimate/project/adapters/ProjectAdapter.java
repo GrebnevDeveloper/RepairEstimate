@@ -19,12 +19,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.employment.ListEmloymentsFragment;
 import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.dialogs.EditingProjectDialog;
 
-public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+public class ProjectAdapter extends BaseAdapter<ProjectAdapter.ProjectViewHolder> {
 
     private static final String TAG = ProjectAdapter.class.getSimpleName();
 
