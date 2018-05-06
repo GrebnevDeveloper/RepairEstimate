@@ -40,9 +40,9 @@ public class FirebaseReadDatabase {
 
     private List<Project> projects = new ArrayList<>();
 
-    private List<EmploymentType> employmentTypes = new ArrayList<>();
+    private static List<EmploymentType> employmentTypes = new ArrayList<>();
 
-    private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
+    private static List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
 
     private BaseAdapter adapter;
 
@@ -101,6 +101,17 @@ public class FirebaseReadDatabase {
                         }
                         employmentTypes.add(dataSnapshot.getValue(EmploymentType.class));
                     } else if (dataSnapshot.getKey().contains("list")) {
+                        for (EmploymentType type : employmentTypes) {
+                            for (ConceivableEmployment conceivable : conceivableEmployments) {
+                                if (type.getName().equals(conceivable.getType()) && !type.isSelected()) {
+                                    conceivableEmployments.remove(conceivable);
+                                }
+                            }
+                            if (type.getName().equals(dataSnapshot.getValue(ConceivableEmployment.class).getType()) &&
+                                    !type.isSelected()) {
+                                return;
+                            }
+                        }
                         for (ConceivableEmployment conceivable : conceivableEmployments) {
                             if (conceivable.getName().equals(dataSnapshot.getValue(ConceivableEmployment.class).getName())) {
                                 return;
