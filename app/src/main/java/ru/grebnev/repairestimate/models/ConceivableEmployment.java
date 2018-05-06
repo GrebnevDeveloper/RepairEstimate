@@ -3,8 +3,11 @@ package ru.grebnev.repairestimate.models;
 public class ConceivableEmployment {
 
     private boolean selected;
-
     private String name;
+    private String type;
+
+    public ConceivableEmployment() {
+    }
 
     public ConceivableEmployment(String name) {
         this.selected = false;
@@ -21,5 +24,9 @@ public class ConceivableEmployment {
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 }

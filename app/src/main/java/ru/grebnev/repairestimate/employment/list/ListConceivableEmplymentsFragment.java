@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
-import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.utils.SimpleDeviderItemDecoration;
 import ru.grebnev.repairestimate.employment.volume.EmploymentVolumeFragment;
 
@@ -26,13 +25,21 @@ public class ListConceivableEmplymentsFragment extends Fragment {
     FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
-    private ListConceivableEmploymentAdapter listConceivableEmploymentAdapter;
+
+    public static ListConceivableEmplymentsFragment getInstance(String type) {
+        Log.d(TAG, "Arguments " + type);
+        ListConceivableEmplymentsFragment fragment = new ListConceivableEmplymentsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        readDatabase = new FirebaseReadDatabase(getActivity());
+        readDatabase = new FirebaseReadDatabase("list");
     }
 
     @Nullable
@@ -44,17 +51,13 @@ public class ListConceivableEmplymentsFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        listConceivableEmploymentAdapter = new ListConceivableEmploymentAdapter();
-
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(listConceivableEmploymentAdapter);
-
         recyclerView.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
 
-        ButterKnife.bind(this, rootView);
+        readDatabase.createValueEvent(recyclerView, getFragmentManager());
+        readDatabase.createChildEvent();
 
-//        readDatabase.createValueEvent(recyclerView, getFragmentManager());
-//        readDatabase.createChildEvent();
+        ButterKnife.bind(this, rootView);
 
         return rootView;
     }

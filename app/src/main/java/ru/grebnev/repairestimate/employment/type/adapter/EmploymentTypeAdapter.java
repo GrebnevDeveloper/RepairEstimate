@@ -1,10 +1,12 @@
 package ru.grebnev.repairestimate.employment.type.adapter;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +19,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
+import ru.grebnev.repairestimate.employment.type.EmploymentTypeFragment;
 import ru.grebnev.repairestimate.models.EmploymentType;
 
 public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.EmploymentTypeViewHolder> {
 
+    private static final String TAG = EmploymentTypeAdapter.class.getSimpleName();
+
     private List<EmploymentType> employmentTypes = new ArrayList<>();
 
     private FragmentManager fragmentManager;
+
+    private EmploymentTypeFragment fragment;
 
 
     public EmploymentTypeAdapter(List<EmploymentType> employmentTypes, FragmentManager fragmentManager) {
@@ -35,6 +42,14 @@ public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.Emp
     @Override
     public EmploymentTypeAdapter.EmploymentTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        for (EmploymentType type : employmentTypes) {
+            if (type.isSelected()) {
+                fragment = (EmploymentTypeFragment) fragmentManager.findFragmentById(R.id.container_fragment);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", type.getName());
+                fragment.setArguments(bundle);
+            }
+        }
         return new EmploymentTypeViewHolder(inflater.inflate(R.layout.item_type, parent, false));
     }
 
@@ -79,5 +94,10 @@ public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.Emp
         }
         employmentType.setSelected(true);
         notifyDataSetChanged();
+        fragment = (EmploymentTypeFragment) fragmentManager.findFragmentById(R.id.container_fragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("type", employmentType.getName());
+        fragment.setArguments(bundle);
+        Log.d(TAG, "Arguments " + employmentType.getName());
     }
 }

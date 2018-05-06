@@ -57,7 +57,7 @@ public class EmploymentTypeFragment extends Fragment {
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");
-        Fragment fragment = new ListConceivableEmplymentsFragment();
+        Fragment fragment = ListConceivableEmplymentsFragment.getInstance(getArguments().getString("type"));
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, fragment);
         fragmentTransaction.addToBackStack(null);

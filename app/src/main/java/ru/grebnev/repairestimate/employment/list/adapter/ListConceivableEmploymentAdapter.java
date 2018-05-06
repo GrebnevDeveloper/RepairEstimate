@@ -1,6 +1,7 @@
 package ru.grebnev.repairestimate.employment.list.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,41 +14,58 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
+import ru.grebnev.repairestimate.employment.list.ListConceivableEmplymentsFragment;
 import ru.grebnev.repairestimate.models.ConceivableEmployment;
 
-public class ListConceivableEmploymentAdapter extends RecyclerView.Adapter<ListConceivableEmploymentAdapter.ListConceivableEmploymentViewHolder> {
+public class ListConceivableEmploymentAdapter extends BaseAdapter<ListConceivableEmploymentAdapter.ListConceivableEmploymentViewHolder> {
 
-    private String[] conceivableEmploymentName = {"Работа 1", "Работа 2", "Работа 3", "Работа 4", "Работа 5",
-            "Работа 6", "Работа 7", "Работа 8", "Работа 9", "Работа 10"};
-    private List<ConceivableEmployment> conceivableEmploymentList = new ArrayList<>();
+    private static final String TAG = ListConceivableEmplymentsFragment.class.getSimpleName();
+
+    private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
+
+    private FragmentManager fragmentManager;
+
+    public ListConceivableEmploymentAdapter(List<ConceivableEmployment> conceivableEmployments, FragmentManager fragmentManager) {
+        this.conceivableEmployments = conceivableEmployments;
+        this.fragmentManager = fragmentManager;
+    }
 
     @NonNull
     @Override
     public ListConceivableEmploymentAdapter.ListConceivableEmploymentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        for (int i = 0; i < conceivableEmploymentName.length; i++) {
-            conceivableEmploymentList.add(new ConceivableEmployment(conceivableEmploymentName[i]));
-        }
         return new ListConceivableEmploymentViewHolder(inflater.inflate(R.layout.item_with_selection, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ListConceivableEmploymentAdapter.ListConceivableEmploymentViewHolder holder, final int position) {
-        holder.textViewConceivableEmploymentName.setText(conceivableEmploymentList.get(position).getName());
-        holder.imageViewSelected.setVisibility(conceivableEmploymentList.get(position).isSelected() ?
+        holder.textViewConceivableEmploymentName.setText(conceivableEmployments.get(position).getName());
+        holder.imageViewSelected.setVisibility(conceivableEmployments.get(position).isSelected() ?
                 View.VISIBLE : View.GONE);
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectedItem(conceivableEmploymentList.get(position));
+//                ListConceivableEmplymentsFragment fragment = (ListConceivableEmplymentsFragment) fragmentManager.findFragmentById(R.id.container_fragment);
+//                Log.d(TAG, "Fragment " + fragment.getArguments().getString("type"));
+//                List<ConceivableEmployment> tmp = new ArrayList<>();
+//                for (ConceivableEmployment conceivableEmployment : conceivableEmployments) {
+//                    if (conceivableEmployment.getType().equals(fragment.getArguments().getString("type"))) {
+//                        tmp.add(conceivableEmployment);
+//                    }
+//                }
+//                conceivableEmployments.clear();
+//                conceivableEmployments.addAll(tmp);
+//                Log.d(TAG, "Size " + conceivableEmployments.size());
+                setSelectedItem(conceivableEmployments.get(position));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return conceivableEmploymentName.length;
+        return conceivableEmployments.size();
     }
 
     public class ListConceivableEmploymentViewHolder extends RecyclerView.ViewHolder {

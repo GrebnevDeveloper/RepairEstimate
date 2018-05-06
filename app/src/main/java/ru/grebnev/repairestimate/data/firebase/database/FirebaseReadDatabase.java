@@ -19,7 +19,9 @@ import java.util.List;
 
 import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.data.firebase.auth.FirebaseAuthentication;
+import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
+import ru.grebnev.repairestimate.models.ConceivableEmployment;
 import ru.grebnev.repairestimate.models.EmploymentType;
 import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.adapters.ProjectAdapter;
@@ -39,6 +41,8 @@ public class FirebaseReadDatabase {
     private List<Project> projects = new ArrayList<>();
 
     private List<EmploymentType> employmentTypes = new ArrayList<>();
+
+    private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
 
     private BaseAdapter adapter;
 
@@ -66,11 +70,12 @@ public class FirebaseReadDatabase {
                     Log.d(TAG, "onDataChange");
                     if (dataSnapshot.getKey().equals("type")) {
                         adapter = new EmploymentTypeAdapter(employmentTypes, fragmentManager);
-                        recyclerView.setAdapter(adapter);
+                    } else if (dataSnapshot.getKey().equals("list")) {
+                        adapter = new ListConceivableEmploymentAdapter(conceivableEmployments, fragmentManager);
                     } else {
                         adapter = new ProjectAdapter(projects, fragmentManager);
-                        recyclerView.setAdapter(adapter);
                     }
+                    recyclerView.setAdapter(adapter);
                 }
 
                 @Override
@@ -95,6 +100,13 @@ public class FirebaseReadDatabase {
                             }
                         }
                         employmentTypes.add(dataSnapshot.getValue(EmploymentType.class));
+                    } else if (dataSnapshot.getKey().contains("list")) {
+                        for (ConceivableEmployment conceivable : conceivableEmployments) {
+                            if (conceivable.getName().equals(dataSnapshot.getValue(ConceivableEmployment.class).getName())) {
+                                return;
+                            }
+                        }
+                        conceivableEmployments.add(dataSnapshot.getValue(ConceivableEmployment.class));
                     } else {
                         for (Project tmp : projects) {
                             if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {
