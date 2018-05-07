@@ -32,4 +32,6 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login_error">Username can not be empty</string>
+    <string name="volume_in_m3">Volume in M3</string>
+    <string name="volume_in_m2">Volume in M2</string>
 </resources>

@@ -6,7 +6,6 @@
               android:focusableInTouchMode="true"
               android:orientation="vertical">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,8 +31,7 @@
                     android:id="@+id/edit_text_volume_m3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/username" />
+                    android:hint="@string/volume_in_m3" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -46,8 +44,7 @@
                     android:id="@+id/edit_text_volume_m2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="@string/password" />
+                    android:hint="@string/volume_in_m2" />
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
