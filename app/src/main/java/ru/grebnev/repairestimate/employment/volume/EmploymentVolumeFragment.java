@@ -34,6 +34,15 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
 
     private FirebaseReadDatabase readDatabase;
 
+    public static EmploymentVolumeFragment getInstance(float volumeM3, float volumeM2) {
+        EmploymentVolumeFragment fragment = new EmploymentVolumeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putFloat("volume_m3", volumeM3);
+        bundle.putFloat("volume_m2", volumeM2);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +59,11 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
 
         volumeM3.setOnFocusChangeListener(this);
         volumeM2.setOnFocusChangeListener(this);
+
+        if (getArguments() != null && !getArguments().isEmpty()) {
+            volumeM3.setText(String.valueOf(getArguments().getFloat("volume_m3")));
+            volumeM2.setText(String.valueOf(getArguments().getFloat("volume_m2")));
+        }
 
 //        readDatabase.createValueEvent(recyclerView, getFragmentManager());
 //        readDatabase.createChildEvent();
