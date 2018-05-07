@@ -30,8 +30,6 @@ public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.Emp
 
     private FragmentManager fragmentManager;
 
-    private EmploymentTypeFragment fragment;
-
 
     public EmploymentTypeAdapter(List<EmploymentType> employmentTypes, FragmentManager fragmentManager) {
         this.employmentTypes = employmentTypes;
@@ -42,14 +40,6 @@ public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.Emp
     @Override
     public EmploymentTypeAdapter.EmploymentTypeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        for (EmploymentType type : employmentTypes) {
-            if (type.isSelected()) {
-                fragment = (EmploymentTypeFragment) fragmentManager.findFragmentById(R.id.container_fragment);
-                Bundle bundle = new Bundle();
-                bundle.putString("type", type.getName());
-                fragment.setArguments(bundle);
-            }
-        }
         return new EmploymentTypeViewHolder(inflater.inflate(R.layout.item_type, parent, false));
     }
 
@@ -94,10 +84,5 @@ public class EmploymentTypeAdapter extends BaseAdapter<EmploymentTypeAdapter.Emp
         }
         employmentType.setSelected(true);
         notifyDataSetChanged();
-        fragment = (EmploymentTypeFragment) fragmentManager.findFragmentById(R.id.container_fragment);
-        Bundle bundle = new Bundle();
-        bundle.putString("type", employmentType.getName());
-        fragment.setArguments(bundle);
-        Log.d(TAG, "Arguments " + employmentType.getName());
     }
 }

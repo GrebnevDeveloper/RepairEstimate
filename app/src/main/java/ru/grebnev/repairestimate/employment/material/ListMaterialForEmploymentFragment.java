@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
-import ru.grebnev.repairestimate.employment.material.adapter.ListMaterialForEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.utils.SimpleDeviderItemDecoration;
 
 public class ListMaterialForEmploymentFragment extends Fragment {
@@ -26,13 +25,12 @@ public class ListMaterialForEmploymentFragment extends Fragment {
     FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
-    private ListMaterialForEmploymentAdapter listMaterialForEmploymentAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        readDatabase = new FirebaseReadDatabase(getActivity());
+        readDatabase = new FirebaseReadDatabase("material");
     }
 
     @Nullable
@@ -44,17 +42,13 @@ public class ListMaterialForEmploymentFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        listMaterialForEmploymentAdapter = new ListMaterialForEmploymentAdapter();
-
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(listMaterialForEmploymentAdapter);
-
         recyclerView.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
 
-        ButterKnife.bind(this, rootView);
+        readDatabase.createValueEvent(recyclerView, getFragmentManager());
+        readDatabase.createChildEvent();
 
-//        readDatabase.createValueEvent(recyclerView, getFragmentManager());
-//        readDatabase.createChildEvent();
+        ButterKnife.bind(this, rootView);
 
         return rootView;
     }

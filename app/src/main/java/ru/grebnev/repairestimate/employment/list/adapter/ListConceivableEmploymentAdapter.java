@@ -47,17 +47,6 @@ public class ListConceivableEmploymentAdapter extends BaseAdapter<ListConceivabl
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ListConceivableEmplymentsFragment fragment = (ListConceivableEmplymentsFragment) fragmentManager.findFragmentById(R.id.container_fragment);
-//                Log.d(TAG, "Fragment " + fragment.getArguments().getString("type"));
-//                List<ConceivableEmployment> tmp = new ArrayList<>();
-//                for (ConceivableEmployment conceivableEmployment : conceivableEmployments) {
-//                    if (conceivableEmployment.getType().equals(fragment.getArguments().getString("type"))) {
-//                        tmp.add(conceivableEmployment);
-//                    }
-//                }
-//                conceivableEmployments.clear();
-//                conceivableEmployments.addAll(tmp);
-//                Log.d(TAG, "Size " + conceivableEmployments.size());
                 setSelectedItem(conceivableEmployments.get(position));
             }
         });

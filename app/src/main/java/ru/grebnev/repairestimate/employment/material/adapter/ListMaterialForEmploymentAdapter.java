@@ -1,6 +1,7 @@
 package ru.grebnev.repairestimate.employment.material.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +14,25 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.models.MaterialEmployment;
 
-public class ListMaterialForEmploymentAdapter extends RecyclerView.Adapter<ListMaterialForEmploymentAdapter.ListMaterialForEmploymentViewHolder> {
+public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialForEmploymentAdapter.ListMaterialForEmploymentViewHolder> {
 
-    private String[] materialEmploymentName = {"Материал 1", "Материал 2", "Материал 3", "Материал 4", "Материал 5",
-            "Материал 6", "Материал 7", "Материал 8", "Материал 9", "Материал 10"};
+    FragmentManager fragmentManager;
+
     private List<MaterialEmployment> materialEmployments = new ArrayList<>();
+
+    public ListMaterialForEmploymentAdapter(List<MaterialEmployment> materialEmployments, FragmentManager fragmentManager) {
+        this.materialEmployments = materialEmployments;
+        this.fragmentManager = fragmentManager;
+    }
 
     @NonNull
     @Override
     public ListMaterialForEmploymentAdapter.ListMaterialForEmploymentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        for (int i = 0; i < materialEmploymentName.length; i++) {
-            materialEmployments.add(new MaterialEmployment(materialEmploymentName[i]));
-        }
         return new ListMaterialForEmploymentViewHolder(inflater.inflate(R.layout.item_material, parent, false));
     }
 
@@ -47,7 +51,7 @@ public class ListMaterialForEmploymentAdapter extends RecyclerView.Adapter<ListM
 
     @Override
     public int getItemCount() {
-        return materialEmploymentName.length;
+        return materialEmployments.size();
     }
 
     public class ListMaterialForEmploymentViewHolder extends RecyclerView.ViewHolder {

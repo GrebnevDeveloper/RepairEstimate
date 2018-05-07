@@ -6,9 +6,15 @@ public class MaterialEmployment {
 
     private String name;
 
-    public MaterialEmployment(String name) {
-        this.selected = false;
-        this.name = name;
+    private String employment;
+
+    private String unit;
+
+    private float volumeOfUnit;
+
+    private float price;
+
+    public MaterialEmployment() {
     }
 
     public boolean isSelected() {
@@ -21,5 +27,9 @@ public class MaterialEmployment {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmployment() {
+        return employment;
     }
 }

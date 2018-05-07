@@ -20,9 +20,11 @@ import java.util.List;
 import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.data.firebase.auth.FirebaseAuthentication;
 import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
+import ru.grebnev.repairestimate.employment.material.adapter.ListMaterialForEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
 import ru.grebnev.repairestimate.models.ConceivableEmployment;
 import ru.grebnev.repairestimate.models.EmploymentType;
+import ru.grebnev.repairestimate.models.MaterialEmployment;
 import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.adapters.ProjectAdapter;
 
@@ -43,6 +45,8 @@ public class FirebaseReadDatabase {
     private static List<EmploymentType> employmentTypes = new ArrayList<>();
 
     private static List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
+
+    private static List<MaterialEmployment> materialEmployments = new ArrayList<>();
 
     private BaseAdapter adapter;
 
@@ -70,8 +74,12 @@ public class FirebaseReadDatabase {
                     Log.d(TAG, "onDataChange");
                     if (dataSnapshot.getKey().equals("type")) {
                         adapter = new EmploymentTypeAdapter(employmentTypes, fragmentManager);
+                        conceivableEmployments.clear();
                     } else if (dataSnapshot.getKey().equals("list")) {
                         adapter = new ListConceivableEmploymentAdapter(conceivableEmployments, fragmentManager);
+                        materialEmployments.clear();
+                    } else if (dataSnapshot.getKey().equals("material")) {
+                        adapter = new ListMaterialForEmploymentAdapter(materialEmployments, fragmentManager);
                     } else {
                         adapter = new ProjectAdapter(projects, fragmentManager);
                     }
@@ -102,11 +110,6 @@ public class FirebaseReadDatabase {
                         employmentTypes.add(dataSnapshot.getValue(EmploymentType.class));
                     } else if (dataSnapshot.getKey().contains("list")) {
                         for (EmploymentType type : employmentTypes) {
-                            for (ConceivableEmployment conceivable : conceivableEmployments) {
-                                if (type.getName().equals(conceivable.getType()) && !type.isSelected()) {
-                                    conceivableEmployments.remove(conceivable);
-                                }
-                            }
                             if (type.getName().equals(dataSnapshot.getValue(ConceivableEmployment.class).getType()) &&
                                     !type.isSelected()) {
                                 return;
@@ -118,6 +121,19 @@ public class FirebaseReadDatabase {
                             }
                         }
                         conceivableEmployments.add(dataSnapshot.getValue(ConceivableEmployment.class));
+                    } else if (dataSnapshot.getKey().contains("material")) {
+                        for (ConceivableEmployment conceivable : conceivableEmployments) {
+                            if (!conceivable.getName().equals(dataSnapshot.getValue(MaterialEmployment.class).getEmployment()) ||
+                                    !conceivable.isSelected()) {
+                                return;
+                            }
+                        }
+                        for (MaterialEmployment material : materialEmployments) {
+                            if (material.getName().equals(dataSnapshot.getValue(MaterialEmployment.class).getName())) {
+                                return;
+                            }
+                        }
+                        materialEmployments.add(dataSnapshot.getValue(MaterialEmployment.class));
                     } else {
                         for (Project tmp : projects) {
                             if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {

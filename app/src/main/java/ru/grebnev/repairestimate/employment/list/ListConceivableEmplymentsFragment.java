@@ -26,15 +26,6 @@ public class ListConceivableEmplymentsFragment extends Fragment {
 
     private FirebaseReadDatabase readDatabase;
 
-    public static ListConceivableEmplymentsFragment getInstance(String type) {
-        Log.d(TAG, "Arguments " + type);
-        ListConceivableEmplymentsFragment fragment = new ListConceivableEmplymentsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("type", type);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
