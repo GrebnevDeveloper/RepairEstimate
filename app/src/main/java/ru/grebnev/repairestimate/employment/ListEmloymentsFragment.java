@@ -29,11 +29,19 @@ public class ListEmloymentsFragment extends Fragment {
     private FirebaseReadDatabase readDatabase;
     private EmploymentAdapter employmentAdapter;
 
+    public static ListEmloymentsFragment getInstance(String idProject) {
+        ListEmloymentsFragment fragment = new ListEmloymentsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id_project", idProject);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        readDatabase = new FirebaseReadDatabase(getActivity());
+        readDatabase = new FirebaseReadDatabase(getActivity(), getArguments().getString("id_project"));
         setHasOptionsMenu(true);
     }
 
@@ -45,11 +53,8 @@ public class ListEmloymentsFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_employments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-//        readDatabase.createValueEvent(recyclerView, getFragmentManager());
-//        readDatabase.createChildEvent();
-
-        employmentAdapter = new EmploymentAdapter();
-        recyclerView.setAdapter(employmentAdapter);
+        readDatabase.createValueEvent(recyclerView, getFragmentManager());
+        readDatabase.createChildEvent();
 
         return rootView;
     }

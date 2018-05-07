@@ -58,9 +58,9 @@ public class ProjectAdapter extends BaseAdapter<ProjectAdapter.ProjectViewHolder
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick");
-                Fragment fragment = new ListEmloymentsFragment();
+                Fragment fragment = ListEmloymentsFragment.getInstance(String.valueOf(projectList.get(position).getDateProject()));
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment, fragment);
+                fragmentTransaction.replace(R.id.container_fragment, fragment, "idProject");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

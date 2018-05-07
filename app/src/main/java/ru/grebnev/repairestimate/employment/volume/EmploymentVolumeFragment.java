@@ -23,12 +23,12 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
 
     private static final String TAG = EmploymentVolumeFragment.class.getSimpleName();
 
-    @BindView(R.id.login_layout)
-    TextInputLayout usernameLayout;
-    @BindView(R.id.edit_text_email)
-    EditText username;
-    @BindView(R.id.edit_text_password)
-    EditText password;
+    @BindView(R.id.volume_layout)
+    TextInputLayout volumeLayout;
+    @BindView(R.id.edit_text_volume_m3)
+    EditText volumeM3;
+    @BindView(R.id.edit_text_volume_m2)
+    EditText volumeM2;
 
     FragmentManager fragmentManager;
 
@@ -48,8 +48,8 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
 
         ButterKnife.bind(this, rootView);
 
-        username.setOnFocusChangeListener(this);
-        password.setOnFocusChangeListener(this);
+        volumeM3.setOnFocusChangeListener(this);
+        volumeM2.setOnFocusChangeListener(this);
 
 //        readDatabase.createValueEvent(recyclerView, getFragmentManager());
 //        readDatabase.createChildEvent();
@@ -60,7 +60,8 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");
-        Fragment fragment = new ListMaterialForEmploymentFragment();
+        Fragment fragment = ListMaterialForEmploymentFragment.getInstance(Float.valueOf(volumeM3.getText().toString()),
+                Float.valueOf(volumeM2.getText().toString()));
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, fragment);
         fragmentTransaction.addToBackStack(null);
@@ -69,11 +70,11 @@ public class EmploymentVolumeFragment extends Fragment implements View.OnFocusCh
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v != username && username.getText().toString().isEmpty()) {
-            usernameLayout.setErrorEnabled(true);
-            usernameLayout.setError(getResources().getString(R.string.login_error));
+        if (v != volumeM3 && volumeM3.getText().toString().isEmpty()) {
+            volumeLayout.setErrorEnabled(true);
+            volumeLayout.setError(getResources().getString(R.string.login_error));
         } else {
-            usernameLayout.setErrorEnabled(false);
+            volumeLayout.setErrorEnabled(false);
         }
     }
 }

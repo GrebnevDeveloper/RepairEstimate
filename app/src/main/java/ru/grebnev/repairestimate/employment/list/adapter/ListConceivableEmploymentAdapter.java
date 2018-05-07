@@ -16,12 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
-import ru.grebnev.repairestimate.employment.list.ListConceivableEmplymentsFragment;
+import ru.grebnev.repairestimate.employment.material.adapter.ListMaterialForEmploymentAdapter;
 import ru.grebnev.repairestimate.models.ConceivableEmployment;
 
 public class ListConceivableEmploymentAdapter extends BaseAdapter<ListConceivableEmploymentAdapter.ListConceivableEmploymentViewHolder> {
 
-    private static final String TAG = ListConceivableEmplymentsFragment.class.getSimpleName();
+    private static final String TAG = ListMaterialForEmploymentAdapter.class.getSimpleName();
 
     private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
 

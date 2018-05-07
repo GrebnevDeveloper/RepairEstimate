@@ -32,4 +32,16 @@ public class MaterialEmployment {
     public String getEmployment() {
         return employment;
     }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public float getVolumeOfUnit() {
+        return volumeOfUnit;
+    }
+
+    public float getPrice() {
+        return price;
+    }
 }

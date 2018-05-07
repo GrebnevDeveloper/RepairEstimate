@@ -19,10 +19,12 @@ import java.util.List;
 
 import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.data.firebase.auth.FirebaseAuthentication;
+import ru.grebnev.repairestimate.employment.adapters.EmploymentAdapter;
 import ru.grebnev.repairestimate.employment.list.adapter.ListConceivableEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.material.adapter.ListMaterialForEmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.adapter.EmploymentTypeAdapter;
 import ru.grebnev.repairestimate.models.ConceivableEmployment;
+import ru.grebnev.repairestimate.models.Employment;
 import ru.grebnev.repairestimate.models.EmploymentType;
 import ru.grebnev.repairestimate.models.MaterialEmployment;
 import ru.grebnev.repairestimate.models.Project;
@@ -42,6 +44,8 @@ public class FirebaseReadDatabase {
 
     private List<Project> projects = new ArrayList<>();
 
+    private List<Employment> employments = new ArrayList<>();
+
     private static List<EmploymentType> employmentTypes = new ArrayList<>();
 
     private static List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
@@ -56,6 +60,15 @@ public class FirebaseReadDatabase {
         if (!TextUtils.isEmpty(uidAuth)) {
             this.reference = FirebaseDatabase.getInstance().getReference(uidAuth);
             this.postsQuery = reference.child("projects").orderByKey();
+        }
+    }
+
+    public FirebaseReadDatabase(Activity activity, String idProject) {
+        this.firebaseAuth = new FirebaseAuthentication(activity);
+        this.uidAuth = firebaseAuth.getUidAuth();
+        if (!TextUtils.isEmpty(uidAuth)) {
+            this.reference = FirebaseDatabase.getInstance().getReference(uidAuth);
+            this.postsQuery = reference.child("projects").child(idProject).child("employments").orderByKey();
         }
     }
 
@@ -80,6 +93,8 @@ public class FirebaseReadDatabase {
                         materialEmployments.clear();
                     } else if (dataSnapshot.getKey().equals("material")) {
                         adapter = new ListMaterialForEmploymentAdapter(materialEmployments, fragmentManager);
+                    } else if (dataSnapshot.getKey().equals("employments")) {
+                        adapter = new EmploymentAdapter(employments, fragmentManager);
                     } else {
                         adapter = new ProjectAdapter(projects, fragmentManager);
                     }
@@ -134,6 +149,13 @@ public class FirebaseReadDatabase {
                             }
                         }
                         materialEmployments.add(dataSnapshot.getValue(MaterialEmployment.class));
+                    } else if (dataSnapshot.getKey().contains("EMPL_")) {
+                        for (Employment employment : employments) {
+                            if (employment.getName().equals(dataSnapshot.getValue(Employment.class).getName())) {
+                                return;
+                            }
+                        }
+                        employments.add(dataSnapshot.getValue(Employment.class));
                     } else {
                         for (Project tmp : projects) {
                             if (tmp.getDateProject() == dataSnapshot.getValue(Project.class).getDateProject()) {
@@ -185,5 +207,9 @@ public class FirebaseReadDatabase {
                 }
             });
         }
+    }
+
+    public List<MaterialEmployment> getMaterialEmployments() {
+        return materialEmployments;
     }
 }
