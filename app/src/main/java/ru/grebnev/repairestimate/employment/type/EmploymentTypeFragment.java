@@ -54,6 +54,12 @@ public class EmploymentTypeFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(getString(R.string.syrface_selection));
+    }
+
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");

@@ -94,7 +94,7 @@ public class FirebaseReadDatabase {
                     } else if (dataSnapshot.getKey().equals("material")) {
                         adapter = new ListMaterialForEmploymentAdapter(materialEmployments, fragmentManager);
                     } else if (dataSnapshot.getKey().equals("employments")) {
-                        adapter = new EmploymentAdapter(employments, fragmentManager);
+                        adapter = new EmploymentAdapter(employments, fragmentManager, conceivableEmployments);
                     } else {
                         adapter = new ProjectAdapter(projects, fragmentManager);
                     }
@@ -135,10 +135,16 @@ public class FirebaseReadDatabase {
                                 return;
                             }
                         }
-                        conceivableEmployments.add(dataSnapshot.getValue(ConceivableEmployment.class));
+                        List<String> volumes = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.child("volume").getChildren()) {
+                            volumes.add(snapshot.getValue(String.class));
+                        }
+                        ConceivableEmployment employment = dataSnapshot.getValue(ConceivableEmployment.class);
+                        employment.setVolumes(volumes);
+                        conceivableEmployments.add(employment);
                     } else if (dataSnapshot.getKey().contains("material")) {
                         for (ConceivableEmployment conceivable : conceivableEmployments) {
-                            if (!conceivable.getName().equals(dataSnapshot.getValue(MaterialEmployment.class).getEmployment()) ||
+                            if (conceivable.getName().equals(dataSnapshot.getValue(MaterialEmployment.class).getEmployment()) &&
                                     !conceivable.isSelected()) {
                                 return;
                             }
@@ -211,5 +217,13 @@ public class FirebaseReadDatabase {
 
     public List<MaterialEmployment> getMaterialEmployments() {
         return materialEmployments;
+    }
+
+    public List<ConceivableEmployment> getConceivableEmployments() {
+        return conceivableEmployments;
+    }
+
+    public List<Employment> getEmployments() {
+        return employments;
     }
 }

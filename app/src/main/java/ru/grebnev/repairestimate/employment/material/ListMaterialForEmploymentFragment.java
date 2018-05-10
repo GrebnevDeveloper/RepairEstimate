@@ -36,11 +36,13 @@ public class ListMaterialForEmploymentFragment extends Fragment {
 
     private List<MaterialEmployment> materialEmployments;
 
-    public static ListMaterialForEmploymentFragment getInstance(float volumeM3, float volumeM2) {
+    public static ListMaterialForEmploymentFragment getInstance(String volume1, @Nullable String volume2) {
         ListMaterialForEmploymentFragment fragment = new ListMaterialForEmploymentFragment();
         Bundle bundle = new Bundle();
-        bundle.putFloat("volume_m3", volumeM3);
-        bundle.putFloat("volume_m2", volumeM2);
+        bundle.putFloat("volume_m3", Float.parseFloat(volume1));
+        if (volume2 != null) {
+            bundle.putFloat("volume_m2", Float.parseFloat(volume2));
+        }
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -72,6 +74,12 @@ public class ListMaterialForEmploymentFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(getString(R.string.material_selection));
+    }
+
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");
@@ -94,13 +102,10 @@ public class ListMaterialForEmploymentFragment extends Fragment {
         for (MaterialEmployment material : materialEmployments) {
             if (material.isSelected()) {
                 employment.setCost((float) (employment.getCost() +
-                        material.getPrice() * Math.ceil(getArguments().getFloat("volume_m3") / material.getVolumeOfUnit())));
+                        material.getPrice() * Math.ceil(getArguments().getFloat("volume_m3") * material.getVolumeOfUnit())));
             }
         }
 
         writeDatabase.writeDataToDatabase(new String[]{"projects", fragmentManager.findFragmentByTag("idProject").getArguments().getString("id_project"), "employments", "EMPL_" + employment.getName()}, employment);
-
-        writeDatabase = new FirebaseWriteDatabase(getActivity());
-        writeDatabase.writeDataToDatabase(new String[]{"projects", fragmentManager.findFragmentByTag("idProject").getArguments().getString("id_project"), "sumProject"}, employment.getCost());
     }
 }

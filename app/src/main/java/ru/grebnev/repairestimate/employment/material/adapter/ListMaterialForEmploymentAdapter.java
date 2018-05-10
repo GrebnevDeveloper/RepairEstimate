@@ -24,9 +24,12 @@ public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialFo
 
     private List<MaterialEmployment> materialEmployments = new ArrayList<>();
 
+    private float volume;
+
     public ListMaterialForEmploymentAdapter(List<MaterialEmployment> materialEmployments, FragmentManager fragmentManager) {
         this.materialEmployments = materialEmployments;
         this.fragmentManager = fragmentManager;
+        volume = fragmentManager.findFragmentByTag("volume").getArguments().getFloat("volume_m3");
     }
 
     @NonNull
@@ -39,6 +42,9 @@ public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialFo
     @Override
     public void onBindViewHolder(@NonNull final ListMaterialForEmploymentAdapter.ListMaterialForEmploymentViewHolder holder, final int position) {
         holder.textViewMaterialEmploymentName.setText(materialEmployments.get(position).getName());
+        holder.textViewQuantity.setText(String.valueOf(Math.ceil(volume * materialEmployments.get(position).getVolumeOfUnit())));
+        holder.textViewPrice.setText(String.valueOf(materialEmployments.get(position).getPrice()));
+        holder.textViewCost.setText(String.valueOf(Math.ceil(volume * materialEmployments.get(position).getVolumeOfUnit()) * materialEmployments.get(position).getPrice()));
         holder.imageViewSelected.setVisibility(materialEmployments.get(position).isSelected() ?
                 View.VISIBLE : View.GONE);
         holder.content.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +66,12 @@ public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialFo
         View content;
         @BindView(R.id.text_view)
         TextView textViewMaterialEmploymentName;
+        @BindView(R.id.text_view_quantity)
+        TextView textViewQuantity;
+        @BindView(R.id.text_view_price)
+        TextView textViewPrice;
+        @BindView(R.id.text_view_cost)
+        TextView textViewCost;
         @BindView(R.id.image_view_selected)
         ImageView imageViewSelected;
 

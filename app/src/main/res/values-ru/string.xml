@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Смета ремонта</string>
+    <string name="account">Аккаунт</string>
+
+    <string name="sign_in">Войти</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="sign_out">Выйти</string>
+    <string name="verify_email">Верификация</string>
+    <string name="signed_in">Вошёл</string>
+    <string name="signed_out">Вышел</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Пароль</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="emailpassword_title_text">Авторизация</string>
+
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="emailpassword_status_fmt">Пользователь: %1$s (подтверждение: %2$b)</string>
+    <string name="add_new_project">Добавить новый проект</string>
+    <string name="dialog_cancel">Отмена</string>
+    <string name="dialog_add">Добавить</string>
+    <string name="name_project_dialog">Название проекта</string>
+    <string name="edith_project">Редактировать проект</string>
+    <string name="dialog_edith">Редактировать</string>
+    <string name="dialog_delete">Удалить</string>
+    <string name="employment">Работа</string>
+
+    <string name="cost">Стоимость:</string>
+    <string name="duration">Duration:</string>
+    <string name="responsible">Responsible:</string>
+    <string name="next">Далее</string>
+
+    <string name="employments">Работы</string>
+    <string name="syrface_selection">Выбор поверхности</string>
+    <string name="material_selection">Выбор материлов и услуг</string>
+    <string name="employment_selection">Выбор работы</string>
+    <string name="enter_volume">Ввод объёмов работы</string>
+    <string name="quantity">Количество:</string>
+    <string name="price">Цена:</string>
+    <string name="volume">Объёмы:</string>
+</resources>

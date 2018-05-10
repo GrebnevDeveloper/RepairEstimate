@@ -1,10 +1,14 @@
 package ru.grebnev.repairestimate.models;
 
+import java.util.List;
+
 public class ConceivableEmployment {
 
     private boolean selected;
     private String name;
     private String type;
+
+    private List<String> volumes;
 
     public ConceivableEmployment() {
     }
@@ -28,5 +32,13 @@ public class ConceivableEmployment {
 
     public String getType() {
         return type;
+    }
+
+    public List<String> getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(List volumes) {
+        this.volumes = volumes;
     }
 }

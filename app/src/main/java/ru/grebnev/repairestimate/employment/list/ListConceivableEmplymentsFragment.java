@@ -53,6 +53,12 @@ public class ListConceivableEmplymentsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(getString(R.string.employment_selection));
+    }
+
     @OnClick(R.id.button_next)
     void onNextClick() {
         Log.d(TAG, "onNextClick");

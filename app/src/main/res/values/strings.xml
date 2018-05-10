@@ -34,4 +34,12 @@
     <string name="login_error">Username can not be empty</string>
     <string name="volume_in_m3">Volume in M3</string>
     <string name="volume_in_m2">Volume in M2</string>
+    <string name="employments">Employments</string>
+    <string name="syrface_selection">Surface Selection</string>
+    <string name="material_selection">Material selection</string>
+    <string name="employment_selection">Employment Selection</string>
+    <string name="enter_volume">Enter volume</string>
+    <string name="quantity">Quantity:</string>
+    <string name="price">Price:</string>
+    <string name="volume">Volume:</string>
 </resources>

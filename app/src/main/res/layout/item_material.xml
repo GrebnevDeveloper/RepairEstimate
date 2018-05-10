@@ -3,29 +3,122 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/content"
               android:layout_width="match_parent"
-              android:layout_height="@dimen/list_item_height"
+              android:layout_height="@dimen/list_item_material_height"
               android:background="@drawable/background_clickable"
               android:gravity="center_vertical"
               android:orientation="horizontal"
               tools:ignore="UseCompoundDrawables">
 
-    <TextView
-        android:id="@+id/text_view"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingEnd="@dimen/base_margin"
-        android:paddingStart="@dimen/base_margin"
-        android:singleLine="true"
-        android:textAppearance="@style/PrimaryText.Black"
-        tools:text="Материал" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="@dimen/base_margin"
+            android:paddingStart="@dimen/base_margin"
+            android:singleLine="true"
+            android:textAppearance="@style/PrimaryText.Black"
+            tools:text="Материал"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="5dp"
+                android:paddingStart="@dimen/base_margin"
+                android:singleLine="true"
+                android:text="@string/quantity"
+                android:textAppearance="@style/PrimaryText.Black"/>
+
+            <TextView
+                android:id="@+id/text_view_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/base_margin"
+                android:singleLine="true"
+                android:textAppearance="@style/PrimaryText.Black"
+                tools:text="2"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="5dp"
+                android:paddingStart="@dimen/base_margin"
+                android:singleLine="true"
+                android:text="@string/price"
+                android:textAppearance="@style/PrimaryText.Black"/>
+
+            <TextView
+                android:id="@+id/text_view_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/base_margin"
+                android:singleLine="true"
+                android:textAppearance="@style/PrimaryText.Black"
+                tools:text="355.00"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="5dp"
+                android:paddingStart="@dimen/base_margin"
+                android:singleLine="true"
+                android:text="@string/cost"
+                android:textAppearance="@style/PrimaryText.Black"/>
+
+            <TextView
+                android:id="@+id/text_view_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/base_margin"
+                android:singleLine="true"
+                android:textAppearance="@style/PrimaryText.Black"
+                tools:text="710.00"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/image_view_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/base_margin"
-        android:src="@drawable/ic_selected" />
+        android:src="@drawable/ic_selected"/>
 </LinearLayout>

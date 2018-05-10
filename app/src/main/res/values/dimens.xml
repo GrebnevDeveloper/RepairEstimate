@@ -22,5 +22,6 @@
     <dimen name="item_type_width">242dp</dimen>
 
     <dimen name="list_item_height">66dp</dimen>
+    <dimen name="list_item_material_height">95dp</dimen>
     <dimen name="delimiter_line_width">0.5dp</dimen>
 </resources>

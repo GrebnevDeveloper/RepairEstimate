@@ -19,6 +19,7 @@ import ru.grebnev.repairestimate.BaseAdapter;
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseWriteDatabase;
 import ru.grebnev.repairestimate.employment.volume.EmploymentVolumeFragment;
+import ru.grebnev.repairestimate.models.ConceivableEmployment;
 import ru.grebnev.repairestimate.models.Employment;
 
 public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentViewHolder> {
@@ -27,15 +28,17 @@ public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentV
 
     private List<Employment> employments = new ArrayList<>();
 
+    private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
+
     private FragmentManager fragmentManager;
 
     private FirebaseWriteDatabase writeDatabase;
 
-    public EmploymentAdapter(List<Employment> employments, FragmentManager fragmentManager) {
+    public EmploymentAdapter(List<Employment> employments, FragmentManager fragmentManager, List<ConceivableEmployment> conceivableEmployment) {
         this.employments = employments;
         this.fragmentManager = fragmentManager;
+        this.conceivableEmployments = conceivableEmployment;
     }
-
 
     @NonNull
     @Override
@@ -80,8 +83,11 @@ public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentV
         @BindView(R.id.tv_name)
         TextView name;
 
-        @BindView(R.id.tv_stage_duration)
+        @BindView(R.id.tv_volume)
         TextView volume;
+
+        @BindView(R.id.tv_unit)
+        TextView unit;
 
         @BindView(R.id.tv_stage_cost)
         TextView cost;

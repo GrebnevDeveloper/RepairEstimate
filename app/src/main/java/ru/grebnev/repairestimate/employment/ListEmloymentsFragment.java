@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 
 import ru.grebnev.repairestimate.R;
 import ru.grebnev.repairestimate.data.firebase.database.FirebaseReadDatabase;
+import ru.grebnev.repairestimate.data.firebase.database.FirebaseWriteDatabase;
 import ru.grebnev.repairestimate.employment.adapters.EmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.EmploymentTypeFragment;
+import ru.grebnev.repairestimate.models.Employment;
 import ru.grebnev.repairestimate.project.ListProjectsFragment;
 
 public class ListEmloymentsFragment extends Fragment {
@@ -57,6 +59,19 @@ public class ListEmloymentsFragment extends Fragment {
         readDatabase.createChildEvent();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(getString(R.string.employments));
+
+        FirebaseWriteDatabase writeDatabase = new FirebaseWriteDatabase(getActivity());
+        float sumTmp = 0.0f;
+        for (Employment employment : readDatabase.getEmployments()) {
+            sumTmp += employment.getCost();
+        }
+        writeDatabase.writeDataToDatabase(new String[]{"projects", fragmentManager.findFragmentByTag("idProject").getArguments().getString("id_project"), "sumProject"}, sumTmp);
     }
 
     @Override
