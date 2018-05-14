@@ -27,7 +27,6 @@ public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentV
     private static final String TAG = EmploymentAdapter.class.getSimpleName();
 
     private List<Employment> employments = new ArrayList<>();
-
     private List<ConceivableEmployment> conceivableEmployments = new ArrayList<>();
 
     private FragmentManager fragmentManager;
@@ -50,12 +49,16 @@ public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentV
     @Override
     public void onBindViewHolder(@NonNull EmploymentAdapter.EmploymentViewHolder holder, final int position) {
         holder.name.setText(employments.get(position).getName());
-        holder.volume.setText(String.valueOf(employments.get(position).getVolumeM3()));
+        float volume = 1.0f;
+        for (Float vol : employments.get(position).getVolumes()) {
+            volume *= vol;
+        }
+        holder.volume.setText(String.valueOf(volume));
         holder.cost.setText(String.valueOf(employments.get(position).getCost()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = EmploymentVolumeFragment.getInstance(employments.get(position).getVolumeM3(), employments.get(position).getVolumeM2());
+                Fragment fragment = EmploymentVolumeFragment.getInstance(employments.get(position).getVolumes());
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_fragment, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -82,13 +85,10 @@ public class EmploymentAdapter extends BaseAdapter<EmploymentAdapter.EmploymentV
 
         @BindView(R.id.tv_name)
         TextView name;
-
         @BindView(R.id.tv_volume)
         TextView volume;
-
         @BindView(R.id.tv_unit)
         TextView unit;
-
         @BindView(R.id.tv_stage_cost)
         TextView cost;
 

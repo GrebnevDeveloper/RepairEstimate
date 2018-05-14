@@ -1,22 +1,22 @@
 package ru.grebnev.repairestimate.models;
 
+import java.util.List;
+
 public class Employment {
 
     private String name;
-
-    private float volumeM3;
-
-    private float volumeM2;
-
     private float cost;
+
+    private List<Float> volumes;
+    private List<String> materials;
+    private List<String> services;
 
     public Employment() {
     }
 
-    public Employment(String name, float volumeM3, float volumeM2) {
+    public Employment(String name, List<Float> volumes) {
         this.name = name;
-        this.volumeM3 = volumeM3;
-        this.volumeM2 = volumeM2;
+        this.volumes = volumes;
         this.cost = 0.0f;
     }
 
@@ -28,27 +28,35 @@ public class Employment {
         this.name = name;
     }
 
-    public float getVolumeM3() {
-        return volumeM3;
-    }
-
-    public void setVolumeM3(float volumeM3) {
-        this.volumeM3 = volumeM3;
-    }
-
-    public float getVolumeM2() {
-        return volumeM2;
-    }
-
-    public void setVolumeM2(float volumeM2) {
-        this.volumeM2 = volumeM2;
-    }
-
     public float getCost() {
         return cost;
     }
 
     public void setCost(float cost) {
         this.cost = cost;
+    }
+
+    public List<String> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<String> materials) {
+        this.materials = materials;
+    }
+
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
+    }
+
+    public List<Float> getVolumes() {
+        return volumes;
+    }
+
+    public void setVolumes(List<Float> volumes) {
+        this.volumes = volumes;
     }
 }

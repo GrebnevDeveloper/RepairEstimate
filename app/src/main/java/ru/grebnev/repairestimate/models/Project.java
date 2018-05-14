@@ -4,13 +4,13 @@ package ru.grebnev.repairestimate.models;
 public class Project {
 
     private long dateProject;
-    private int sumProject;
+    private float sumProject;
     private String nameProject;
 
     public Project() {
     }
 
-    public Project(long dateProject, int sumProject, String nameProject) {
+    public Project(long dateProject, float sumProject, String nameProject) {
         this.dateProject = dateProject;
         this.sumProject = sumProject;
         this.nameProject = nameProject;
@@ -20,7 +20,7 @@ public class Project {
         return dateProject;
     }
 
-    public int getSumProject() {
+    public float getSumProject() {
         return sumProject;
     }
 

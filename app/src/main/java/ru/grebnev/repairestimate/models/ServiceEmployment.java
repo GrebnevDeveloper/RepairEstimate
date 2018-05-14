@@ -1,19 +1,15 @@
 package ru.grebnev.repairestimate.models;
 
-import java.util.List;
-
-public class MaterialEmployment {
+public class ServiceEmployment {
 
     private boolean selected;
     private String name;
     private String employment;
     private String unit;
-
-    private List<Float> volumesOfUnit;
-
+    private float volumeOfUnit;
     private float price;
 
-    public MaterialEmployment() {
+    public ServiceEmployment() {
     }
 
     public boolean isSelected() {
@@ -36,15 +32,12 @@ public class MaterialEmployment {
         return unit;
     }
 
-    public List<Float> getVolumesOfUnit() {
-        return volumesOfUnit;
-    }
-
-    public void setVolumesOfUnit(List<Float> volumesOfUnit) {
-        this.volumesOfUnit = volumesOfUnit;
+    public float getVolumeOfUnit() {
+        return volumeOfUnit;
     }
 
     public float getPrice() {
         return price;
     }
+
 }

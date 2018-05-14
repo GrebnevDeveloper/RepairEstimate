@@ -26,7 +26,7 @@ public class EditingProjectDialog extends DialogFragment {
 
         args.putLong("date", project.getDateProject());
         args.putString("name", project.getNameProject());
-        args.putInt("sum", project.getSumProject());
+        args.putFloat("sum", project.getSumProject());
 
         editingProjectDialog.setArguments(args);
         return editingProjectDialog;

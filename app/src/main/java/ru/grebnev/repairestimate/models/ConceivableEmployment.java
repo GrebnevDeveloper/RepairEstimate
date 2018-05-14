@@ -7,6 +7,7 @@ public class ConceivableEmployment {
     private boolean selected;
     private String name;
     private String type;
+    private String unit;
 
     private List<String> volumes;
 
@@ -40,5 +41,9 @@ public class ConceivableEmployment {
 
     public void setVolumes(List volumes) {
         this.volumes = volumes;
+    }
+
+    public String getUnit() {
+        return unit;
     }
 }

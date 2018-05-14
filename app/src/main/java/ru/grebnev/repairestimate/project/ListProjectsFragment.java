@@ -24,9 +24,13 @@ public class ListProjectsFragment extends Fragment {
 
     private static final String TAG = ListProjectsFragment.class.getSimpleName();
 
+    private String[] query = {"type", "list", "material", "service"};
+
     private FragmentManager fragmentManager;
 
     private FirebaseReadDatabase readDatabase;
+
+    private FirebaseReadDatabase readDatabaseTmp;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +50,11 @@ public class ListProjectsFragment extends Fragment {
 
         readDatabase.createValueEvent(recyclerView, getFragmentManager());
         readDatabase.createChildEvent();
+
+        for (String query : query) {
+            readDatabaseTmp = new FirebaseReadDatabase(query);
+            readDatabaseTmp.getAllData();
+        }
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package ru.grebnev.repairestimate.employment.material.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +25,16 @@ public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialFo
 
     private List<MaterialEmployment> materialEmployments = new ArrayList<>();
 
-    private float volume;
+    private List<Float> volume;
 
     public ListMaterialForEmploymentAdapter(List<MaterialEmployment> materialEmployments, FragmentManager fragmentManager) {
         this.materialEmployments = materialEmployments;
         this.fragmentManager = fragmentManager;
-        volume = fragmentManager.findFragmentByTag("volume").getArguments().getFloat("volume_m3");
+        Fragment fragment = fragmentManager.findFragmentByTag("volume");
+        volume = new ArrayList<>();
+        for (int i = 0; i < fragment.getArguments().getInt("count_volume"); i++) {
+            volume.add(fragment.getArguments().getFloat("volume_" + i));
+        }
     }
 
     @NonNull
@@ -42,9 +47,13 @@ public class ListMaterialForEmploymentAdapter extends BaseAdapter<ListMaterialFo
     @Override
     public void onBindViewHolder(@NonNull final ListMaterialForEmploymentAdapter.ListMaterialForEmploymentViewHolder holder, final int position) {
         holder.textViewMaterialEmploymentName.setText(materialEmployments.get(position).getName());
-        holder.textViewQuantity.setText(String.valueOf(Math.ceil(volume * materialEmployments.get(position).getVolumeOfUnit())));
+        float quantity = volume.get(0) * materialEmployments.get(position).getVolumesOfUnit().get(0);
+        for (int i = 1; i < volume.size(); i++) {
+            quantity = quantity * (volume.get(i) * materialEmployments.get(position).getVolumesOfUnit().get(i));
+        }
+        holder.textViewQuantity.setText(String.valueOf(Math.ceil(quantity)) + " " + materialEmployments.get(position).getUnit());
         holder.textViewPrice.setText(String.valueOf(materialEmployments.get(position).getPrice()));
-        holder.textViewCost.setText(String.valueOf(Math.ceil(volume * materialEmployments.get(position).getVolumeOfUnit()) * materialEmployments.get(position).getPrice()));
+        holder.textViewCost.setText(String.valueOf(Math.ceil(quantity) * materialEmployments.get(position).getPrice()));
         holder.imageViewSelected.setVisibility(materialEmployments.get(position).isSelected() ?
                 View.VISIBLE : View.GONE);
         holder.content.setOnClickListener(new View.OnClickListener() {

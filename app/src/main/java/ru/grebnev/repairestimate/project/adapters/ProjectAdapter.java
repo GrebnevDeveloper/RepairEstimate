@@ -52,7 +52,7 @@ public class ProjectAdapter extends BaseAdapter<ProjectAdapter.ProjectViewHolder
         Log.d(TAG, "Size  " + projectList.size() + " name " + projectList.get(position).getNameProject() + " time " + projectList.get(position).getDateProject());
         holder.textViewNameProject.setText(projectList.get(position).getNameProject());
         holder.textViewSumProject.setText(String.valueOf(projectList.get(position).getSumProject()));
-        holder.textViewDateProject.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(projectList.get(position).getDateProject())));
+        holder.textViewDateProject.setText(new SimpleDateFormat("dd.MM.yyyy").format(new Date(projectList.get(position).getDateProject())));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

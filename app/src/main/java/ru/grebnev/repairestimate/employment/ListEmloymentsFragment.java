@@ -20,7 +20,9 @@ import ru.grebnev.repairestimate.data.firebase.database.FirebaseWriteDatabase;
 import ru.grebnev.repairestimate.employment.adapters.EmploymentAdapter;
 import ru.grebnev.repairestimate.employment.type.EmploymentTypeFragment;
 import ru.grebnev.repairestimate.models.Employment;
+import ru.grebnev.repairestimate.models.Project;
 import ru.grebnev.repairestimate.project.ListProjectsFragment;
+import ru.grebnev.repairestimate.report.ReportTable;
 
 public class ListEmloymentsFragment extends Fragment {
 
@@ -90,6 +92,18 @@ public class ListEmloymentsFragment extends Fragment {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 return true;
+            case R.id.menu_action_create_report:
+                Project project = null;
+                for (Project tmpProject : readDatabase.getProjects()) {
+                    if (fragmentManager.findFragmentByTag("idProject").getArguments().getString("id_project").equals(String.valueOf(tmpProject.getDateProject()))) {
+                        project = tmpProject;
+                    }
+                }
+                ReportTable table = new ReportTable(getActivity(), project, readDatabase.getEmployments(), readDatabase);
+                if (table.checkPermission()) {
+                    table.createPdfFile();
+                }
+
             default:
                 return super.onOptionsItemSelected(item);
         }

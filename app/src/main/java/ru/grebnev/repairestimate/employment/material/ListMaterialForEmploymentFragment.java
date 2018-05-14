@@ -1,6 +1,5 @@
 package ru.grebnev.repairestimate.employment.material;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -24,6 +24,7 @@ import ru.grebnev.repairestimate.employment.ListEmloymentsFragment;
 import ru.grebnev.repairestimate.employment.utils.SimpleDeviderItemDecoration;
 import ru.grebnev.repairestimate.models.Employment;
 import ru.grebnev.repairestimate.models.MaterialEmployment;
+import ru.grebnev.repairestimate.models.ServiceEmployment;
 
 public class ListMaterialForEmploymentFragment extends Fragment {
 
@@ -31,18 +32,21 @@ public class ListMaterialForEmploymentFragment extends Fragment {
 
     FragmentManager fragmentManager;
 
-    private FirebaseReadDatabase readDatabase;
+    private FirebaseReadDatabase readDatabaseMaterial;
+    private FirebaseReadDatabase readDatabaseService;
     private FirebaseWriteDatabase writeDatabase;
 
     private List<MaterialEmployment> materialEmployments;
+    private List<ServiceEmployment> serviceEmployments;
 
-    public static ListMaterialForEmploymentFragment getInstance(String volume1, @Nullable String volume2) {
+    public static ListMaterialForEmploymentFragment getInstance(List<Float> volumes) {
         ListMaterialForEmploymentFragment fragment = new ListMaterialForEmploymentFragment();
         Bundle bundle = new Bundle();
-        bundle.putFloat("volume_m3", Float.parseFloat(volume1));
-        if (volume2 != null) {
-            bundle.putFloat("volume_m2", Float.parseFloat(volume2));
+        for (int i = 0; i < volumes.size(); i++) {
+            bundle.putFloat("volume_" + i, volumes.get(i));
         }
+        bundle.putInt("count_volume", volumes.size());
+        fragment.setArguments(bundle);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -51,7 +55,8 @@ public class ListMaterialForEmploymentFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        readDatabase = new FirebaseReadDatabase("material");
+        readDatabaseMaterial = new FirebaseReadDatabase("material");
+        readDatabaseService = new FirebaseReadDatabase("service");
     }
 
     @Nullable
@@ -59,15 +64,25 @@ public class ListMaterialForEmploymentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_material_employment, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_material);
+        final RecyclerView recyclerViewMaterial = rootView.findViewById(R.id.recycler_view_material);
+
+        final RecyclerView recyclerViewService = rootView.findViewById(R.id.recycler_view_service);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
+        recyclerViewMaterial.setLayoutManager(layoutManager);
+        recyclerViewMaterial.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
 
-        readDatabase.createValueEvent(recyclerView, getFragmentManager());
-        readDatabase.createChildEvent();
+        LinearLayoutManager layoutManagerService = new LinearLayoutManager(getContext());
+
+        recyclerViewService.setLayoutManager(layoutManagerService);
+        recyclerViewService.addItemDecoration(new SimpleDeviderItemDecoration(getContext()));
+
+        readDatabaseMaterial.createValueEvent(recyclerViewMaterial, getFragmentManager());
+        readDatabaseMaterial.createChildEvent();
+
+        readDatabaseService.createValueEvent(recyclerViewService, getFragmentManager());
+        readDatabaseService.createChildEvent();
 
         ButterKnife.bind(this, rootView);
 
@@ -94,17 +109,47 @@ public class ListMaterialForEmploymentFragment extends Fragment {
 
     private void writeEmployment() {
         writeDatabase = new FirebaseWriteDatabase(getActivity());
-        materialEmployments = readDatabase.getMaterialEmployments();
+        materialEmployments = readDatabaseMaterial.getMaterialEmployments();
+        serviceEmployments = readDatabaseService.getServiceEmployments();
 
-        Employment employment = new Employment(materialEmployments.get(0).getEmployment(),
-                getArguments().getFloat("volume_m3"), getArguments().getFloat("volume_m2"));
+        List<Float> volumes = new ArrayList<>();
+
+        for (int i = 0; i < getArguments().getInt("count_volume"); i++) {
+            volumes.add(getArguments().getFloat("volume_" + i));
+        }
+
+        Employment employment = new Employment(materialEmployments.get(0).getEmployment(), volumes);
+
+        List<String> materials = new ArrayList<>();
 
         for (MaterialEmployment material : materialEmployments) {
             if (material.isSelected()) {
-                employment.setCost((float) (employment.getCost() +
-                        material.getPrice() * Math.ceil(getArguments().getFloat("volume_m3") * material.getVolumeOfUnit())));
+                float volume = getArguments().getFloat("volume_0" ) * material.getVolumesOfUnit().get(0);
+                for (int i = 1; i < getArguments().getInt("count_volume"); i++) {
+                    volume = volume * (getArguments().getFloat("volume_" + i) * material.getVolumesOfUnit().get(i));
+                }
+                employment.setCost((float) (employment.getCost() + material.getPrice() * Math.ceil(volume)));
+                materials.add(material.getName());
             }
         }
+
+        List<String> services = new ArrayList<>();
+
+        for (ServiceEmployment service : serviceEmployments) {
+            if (service.isSelected()) {
+                float volume = 1.0f;
+                for (int i = 0; i < getArguments().getInt("count_volume"); i++) {
+                    volume = volume * getArguments().getFloat("volume_" + i);
+                }
+
+                employment.setCost((float) (employment.getCost() +
+                        service.getPrice() * Math.ceil(volume) * service.getVolumeOfUnit()));
+                services.add(service.getName());
+            }
+        }
+
+        employment.setMaterials(materials);
+        employment.setServices(services);
 
         writeDatabase.writeDataToDatabase(new String[]{"projects", fragmentManager.findFragmentByTag("idProject").getArguments().getString("id_project"), "employments", "EMPL_" + employment.getName()}, employment);
     }

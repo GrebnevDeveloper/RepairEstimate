@@ -42,4 +42,5 @@
     <string name="quantity">Quantity:</string>
     <string name="price">Price:</string>
     <string name="volume">Volume:</string>
+    <string name="report">Report</string>
 </resources>

@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,11 +40,13 @@ public class EmploymentVolumeFragment extends Fragment {
 
     private FirebaseReadDatabase readDatabase;
 
-    public static EmploymentVolumeFragment getInstance(float volumeM3, float volumeM2) {
+    public static EmploymentVolumeFragment getInstance(List<Float> volumes) {
         EmploymentVolumeFragment fragment = new EmploymentVolumeFragment();
         Bundle bundle = new Bundle();
-        bundle.putFloat("volume_m3", volumeM3);
-        bundle.putFloat("volume_m2", volumeM2);
+        for (int i = 0; i < volumes.size(); i++) {
+            bundle.putFloat("volume_" + i, volumes.get(i));
+        }
+        bundle.putInt("count_volume", volumes.size());
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -74,8 +79,8 @@ public class EmploymentVolumeFragment extends Fragment {
         }
 
         if (getArguments() != null && !getArguments().isEmpty()) {
-            volume1.setText(String.valueOf(getArguments().getFloat("volume_m3")));
-            volume2.setText(String.valueOf(getArguments().getFloat("volume_m2")));
+            volume1.setText(String.valueOf(getArguments().getFloat("volume_0")));
+            volume2.setText(String.valueOf(getArguments().getFloat("volume_1")));
         }
 
         return rootView;
@@ -91,11 +96,12 @@ public class EmploymentVolumeFragment extends Fragment {
     void onNextClick() {
         Log.d(TAG, "onNextClick");
         Fragment fragment;
-        if (tvVolume2.getVisibility() == View.GONE) {
-            fragment = ListMaterialForEmploymentFragment.getInstance(volume1.getText().toString(), null);
-        } else {
-            fragment = ListMaterialForEmploymentFragment.getInstance(volume1.getText().toString(), volume2.getText().toString());
+        List<Float> volumes = new ArrayList<>();
+        volumes.add(Float.valueOf(volume1.getText().toString()));
+        if (tvVolume2.getVisibility() != View.GONE) {
+            volumes.add(Float.valueOf(volume2.getText().toString()));
         }
+        fragment = ListMaterialForEmploymentFragment.getInstance(volumes);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, fragment, "volume");
         fragmentTransaction.addToBackStack(null);
